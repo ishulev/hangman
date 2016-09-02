@@ -92,4 +92,4 @@ gulp.task('imagemin', function() {
 	.pipe(gulp.dest(dest + '/images'));
 });
 
-gulp.task('default', ['scripts', 'styles', 'templates', 'serve']);
+gulp.task('default', ['data', 'scripts', 'styles', 'templates', 'serve']);
