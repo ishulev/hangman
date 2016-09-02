@@ -1,0 +1,53 @@
+{
+	"animals": [{
+		"description": "The best animal in the world",
+		"answer": "kitty"
+	},{
+		"description": "Man's best friend",
+		"answer": "doggy"
+	},{
+		"description": "Long, green, with scary teeth and slow metabolism",
+		"answer": "crocodile"
+	},{
+		"description": "Big black kitty",
+		"answer": "panther"
+	}
+	,{
+		"description": "Big fast kitty (the fastest)",
+		"answer": "cheetah"
+	}],
+	"capitals": [{
+		"description": "The capital of Bulgaria",
+		"answer": "Sofia"
+	},{
+		"description": "The capital of Germany",
+		"answer": "Berlin"
+	},{
+		"description": "The capital of China",
+		"answer": "Beijing"
+	},{
+		"description": "The capital of blqd (Russia)",
+		"answer": "Moscow"
+	}
+	,{
+		"description": "The capital of Denmark",
+		"answer": "Copenhagen"
+	}],
+	"sports": [{
+		"description": "Punching people in the face",
+		"answer": "boxing"
+	},{
+		"description": "Hitting a leather ball with a bat and running like crazy",
+		"answer": "baseball"
+	},{
+		"description": "The sport with most fake injuries and players with acting skills",
+		"answer": "football"
+	},{
+		"description": "A \"mind sport\" with cards",
+		"answer": "poker"
+	}
+	,{
+		"description": "The one where they pull trucks",
+		"answer": "strongman"
+	}]
+}

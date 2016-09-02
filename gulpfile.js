@@ -58,6 +58,12 @@ gulp.task('fonts', function () {
 	.pipe(gulp.dest(fonts.out));
 });
 
+gulp.task('data', function () {
+	return gulp
+	.src(src + '/data.json')
+	.pipe(gulp.dest(dest + '/data/'));
+});
+
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 gulp.task('styles', ['fonts'], function(){
