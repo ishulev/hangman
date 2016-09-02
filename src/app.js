@@ -12,7 +12,18 @@
 		hangmanApp.controller('HangmanParentController', function ($scope, conundrums){
 			conundrums.getData(function(data) {
 				$scope.conundrums = data;
+				$scope.category = '';
 			});
+		});
+		hangmanApp.directive('categoryButton', function() {
+			return {
+				restrict: 'E',
+				scope: {
+					key: '=',
+					click: '&'
+				},
+				template: '<button class="btn btn-primary">{{key}}</button>'
+			};
 		});
 
 		angular.bootstrap(document, ['hangmanApp']);

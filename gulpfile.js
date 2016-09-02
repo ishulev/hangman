@@ -31,7 +31,7 @@ gulp.task('serve', function() {
 var concat = require('gulp-concat');
 var minify = require('gulp-minify');
 gulp.task('scripts', function() {
-	return gulp.src(['./node_modules/angular/angular.js', src + '/*.js'])
+	return gulp.src([src + '/*.js'])
 	.pipe(concat('scripts.js'))
 	// .pipe(minify({
 	// 	ext:{
