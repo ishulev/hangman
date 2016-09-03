@@ -12,17 +12,25 @@
 		hangmanApp.controller('HangmanParentController', function ($scope, conundrums){
 			conundrums.getData(function(data) {
 				$scope.conundrums = data;
-				$scope.category = '';
 			});
+			$scope.setCategory = function(cat){
+				$scope.category = cat;
+				$scope.$apply();
+			};
 		});
 		hangmanApp.directive('categoryButton', function() {
 			return {
 				restrict: 'E',
 				scope: {
 					key: '=',
-					click: '&'
+					onClick: '&'
 				},
-				template: '<button class="btn btn-primary">{{key}}</button>'
+				template: '<button class="btn btn-primary">{{key}}</button>',
+				link: function(scope, element){
+					element.on('click', function(){
+						scope.onClick({category: scope.key});
+					});
+				}
 			};
 		});
 
