@@ -12,15 +12,33 @@
 			bindings: {
 				categories: '<',
 				multiplayer: '<',
+				missingNumbers: '<',
+				setNumOfWords: '&',
+				setNumOfPlayers: '&',
 				setCategory: '&'
 			}
 		})
-		.component('singlePlayer', {
-			templateUrl: 'ng-templates/template-single-player.html',
-			// bindings: {
-			// 	categories: '<',
-			// 	setCategory: '&'
-			// }
+		.component('gameComponent', {
+			templateUrl: 'ng-templates/template-game-component.html',
+			bindings: {
+				selectedData: '<'
+			},
+			controller: function(){
+				var randomWordIndex = Math.floor(Math.random() * (this.selectedData.length));
+				this.hangmanPhase = 0;
+				this.currentWord = this.selectedData[randomWordIndex];
+			}
+		})
+		.component('wordComponent', {
+			templateUrl: 'ng-templates/template-word-component.html',
+			bindings: {
+				wordObject: '<'
+			},
+			controller: function(){
+				// this.description = 0;
+				// this.randomWordIndex = Math.floor(Math.random() * (this.selectedData.length));
+				// this.currentWord = this.selectedData[randomWordIndex];
+			}
 		});
 
 		hangmanApp.factory('conundrums', function($http){
@@ -47,6 +65,10 @@
 			var completeData;
 			$scope.categories = [];
 			$scope.multiplayer = false;
+			$scope.numOfWords = 0;
+			$scope.numOfPlayers = 0;
+			$scope.missingNumbers = false;
+			$scope.startGameState = true;
 			conundrums.getData(function(data) {
 				completeData = data;
 				$scope.categories = Object.keys(data);
@@ -55,8 +77,24 @@
 			$scope.setCategory = function(cat){
 				$scope.category = cat;
 			};
+			$scope.setNumOfWords = function(event){
+				$scope.numOfWords = event.target.valueAsNumber;
+			};
+			$scope.setNumOfPlayers = function(event){
+				$scope.numOfPlayers = event.target.valueAsNumber;
+			};
 			$scope.startGame = function(){
-
+				if(this.multiplayer){
+					if(this.numOfWords === 0 || this.numOfPlayers === 0){
+						this.missingNumbers = true;
+						return;
+					}
+					else {
+						this.missingNumbers = false;
+					}
+				}
+				this.selectedData = completeData[this.category];
+				this.startGameState = false;
 			}
 		});
 		hangmanApp.directive('categoryButton', function() {
