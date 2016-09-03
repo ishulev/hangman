@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
 	window.onload = function() {
-		var hangmanApp = angular.module('hangmanApp', []);
+		var hangmanApp = angular.module('hangmanApp', ['ngComponentRouter']);
 		hangmanApp.factory('conundrums', function($http){
 			return {
 				getData: function(callback){

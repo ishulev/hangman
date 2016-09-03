@@ -28,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/ivan-shulev/hangman/issues"
   },
-  "homepage": "https://github.com/ivan-shulev/hangman#readme"
+  "homepage": "https://github.com/ivan-shulev/hangman#readme",
+  "dependencies": {
+    "@angular/router": "^0.2.0"
+  }
 }
