@@ -10,6 +10,10 @@ html(lang="en")
 		link(rel="stylesheet" type="text/css" href="css/styles.css")
 	body
 		main.container(ng-controller="HangmanParentController")
-			new-game
+			h1 Hangman
+			button.btn.btn-warning(ng-click="multiplayer = !multiplayer") {{'Multiplayer' | singleOrNot:multiplayer}}
+			new-game(multiplayer="multiplayer" categories="categories" set-category="setCategory(category)")
+			p
+				button.btn.btn-primary.btn-lg Start game
 		script(type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js")
 		script(type="text/javascript" src="js/scripts.js")

@@ -23,7 +23,7 @@ gulp.task('serve', function() {
 	gulp.watch([src + '/includes/*.jade', src + '/*.jade'], ['templates', 'bootlint']);
 	gulp.watch([src + '/*.js'], ['scripts']);
 	gulp.watch([src + '/*.scss'], ['styles']);
-	gulp.watch([dest + '/**/*.html', dest + '/js/*.js', dest + '/css/*.css'], function (file) {
+	gulp.watch([dest + '/*.html', dest + '/ng-templates/*.html', dest + '/js/*.js', dest + '/css/*.css'], function (file) {
 		server.notify.apply(server, [file]);
 	});
 });

@@ -1,6 +1,3 @@
-h1 Hangman
-h3 Choose a category
-category-button(ng-repeat="(key, value) in conundrums" key="key" on-click="setCategory(category)")
-	{{category}}
-	p
-		button.btn.btn-primary.btn-lg(ng-click="startGame()") Start game
+ng-show(ng-show="!$ctrl.multiplayer")
+	h3 Choose a category
+	category-button(ng-repeat="cat in $ctrl.categories" key="cat")
