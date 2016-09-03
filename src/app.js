@@ -35,9 +35,15 @@
 				wordObject: '<'
 			},
 			controller: function(){
-				// this.description = 0;
-				// this.randomWordIndex = Math.floor(Math.random() * (this.selectedData.length));
-				// this.currentWord = this.selectedData[randomWordIndex];
+			}
+		})
+		.component('scribbleComponent', {
+			templateUrl: 'ng-templates/template-scribble-component.html',
+			bindings: {
+				answer: '<'
+			},
+			controller: function(){
+				this.scribble = this.answer.split('');
 			}
 		});
 
