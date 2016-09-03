@@ -15,8 +15,10 @@
 			});
 			$scope.setCategory = function(cat){
 				$scope.category = cat;
-				$scope.$apply();
 			};
+			$scope.startGame = function(){
+
+			}
 		});
 		hangmanApp.directive('categoryButton', function() {
 			return {
