@@ -2,6 +2,15 @@
 	'use strict';
 	window.onload = function() {
 		var hangmanApp = angular.module('hangmanApp', ['ngComponentRouter']);
+
+		hangmanApp.config(function($locationProvider) {
+			$locationProvider.html5Mode(true);
+		})
+		.value('$routerRootComponent', 'newGame')
+		.component('newGame', {
+			template: 'It worked!'
+		});
+
 		hangmanApp.factory('conundrums', function($http){
 			return {
 				getData: function(callback){
