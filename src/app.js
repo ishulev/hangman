@@ -8,7 +8,7 @@
 		})
 		.value('$routerRootComponent', 'newGame')
 		.component('newGame', {
-			template: 'It worked!'
+			templateUrl: 'ng-templates/template-new-game.html'
 		});
 
 		hangmanApp.factory('conundrums', function($http){

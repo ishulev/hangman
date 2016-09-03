@@ -11,11 +11,5 @@ html(lang="en")
 	body
 		main.container(ng-controller="HangmanParentController")
 			new-game
-			h1 Hangman
-			h3 Choose a category
-			category-button(ng-repeat="(key, value) in conundrums" key="key" on-click="setCategory(category)")
-			{{category}}
-			p
-				button.btn.btn-primary.btn-lg(ng-click="startGame()") Start game
 		script(type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js")
 		script(type="text/javascript" src="js/scripts.js")
