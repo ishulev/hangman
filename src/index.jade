@@ -10,11 +10,14 @@ html(lang="en")
 		link(rel="stylesheet" type="text/css" href="css/styles.css")
 	body(ng-controller="HangmanParentController")
 		overlay(result="result")
-		main.container.text-center
-			img.logo(src="images/logo-hangman.png" alt="Hangman game logo")
-			h4(ng-show="!startGameState") {{'Singleplayer' | singleOrNot:!multiplayer}}
-			button.btn.btn-warning(ng-click="multiplayer = !multiplayer" ng-show="startGameState") {{'Multiplayer' | singleOrNot:multiplayer}}
-			stats(stats="stats")
+		main.container
+			div.row
+				div.col-md-6
+					img.logo(src="images/logo-hangman.png" alt="Hangman game logo")
+					h4(ng-show="!startGameState") {{'Singleplayer' | singleOrNot:!multiplayer}}
+					button.btn.btn-warning(ng-click="multiplayer = !multiplayer" ng-show="startGameState") {{'Multiplayer' | singleOrNot:multiplayer}}
+				div.col-md-6
+					stats(player-stats="playerStats" mode="multiplayer")
 			new-game(ng-show="startGameState" set-num-of-words="setNumOfWords(event)" set-num-of-players="setNumOfPlayers(event)" multiplayer="multiplayer" categories="categories" missing-numbers="missingNumbers" set-category="setCategory(category)")
 			game-component(ng-if="!startGameState" guessed-letters="guessedLetters(number)" selected-data="selectedData" finished-game="finishedGame(result)")
 			p(ng-show="startGameState")

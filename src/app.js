@@ -133,7 +133,8 @@
 		.component('stats', {
 			templateUrl: 'ng-templates/template-stats.html',
 			bindings: {
-				stats: '<'
+				playerStats: '<',
+				mode: '<'
 			},
 			controller: function(){
 			}
@@ -186,19 +187,23 @@
 			$scope.numOfPlayers = 0;
 			$scope.missingNumbers = false;
 			$scope.startGameState = true;
-			$scope.stats = {
+			var stats = {
 				totalGames: 0,
 				gamesWon: 0,
 				gamesLost: 0,
 				guessedLetters: 0,
 				guessedWords: 0
 			};
+			$scope.playerStats = {
+				player: 'Player 1',
+				stats: stats
+			};
 			conundrums.getData(function(data) {
 				completeData = data;
 				$scope.categories = Object.keys(data);
 			});
 			$scope.guessedLetters = function(number){
-				$scope.stats.guessedLetters += number;
+				stats.guessedLetters += number;
 			};
 			$scope.setCategory = function(cat){
 				$scope.category = cat;
@@ -211,13 +216,13 @@
 			};
 			$scope.finishedGame = function(result){
 				if('win' == result){
-					$scope.stats.gamesWon++;
-					$scope.stats.guessedWords++;
+					stats.gamesWon++;
+					stats.guessedWords++;
 				}
 				else {
-					$scope.stats.gamesLost++;
+					stats.gamesLost++;
 				}
-				$scope.stats.totalGames++;
+				stats.totalGames++;
 				$scope.result = {
 					display: true,
 					outcome: result

@@ -1,11 +1,12 @@
-ul.list-group.stats
+ul.list-group.stats.pull-right
+	li.list-group-item.list-group-item-info {{$ctrl.playerStats.player}}
 	li.list-group-item Total games:
-		span.badge {{$ctrl.stats.totalGames}}
+		span.badge {{$ctrl.playerStats.stats.totalGames}}
 	li.list-group-item Games Won:
-		span.badge {{$ctrl.stats.gamesWon}}
+		span.badge {{$ctrl.playerStats.stats.gamesWon}}
 	li.list-group-item Games Lost:
-		span.badge {{$ctrl.stats.gamesLost}}
+		span.badge {{$ctrl.playerStats.stats.gamesLost}}
 	li.list-group-item Guessed letters:
-		span.badge {{$ctrl.stats.guessedLetters}}
+		span.badge {{$ctrl.playerStats.stats.guessedLetters}}
 	li.list-group-item Guessed words:
-		span.badge {{$ctrl.stats.guessedWords}}
+		span.badge {{$ctrl.playerStats.stats.guessedWords}}
