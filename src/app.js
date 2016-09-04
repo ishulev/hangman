@@ -22,7 +22,8 @@
 			templateUrl: 'ng-templates/template-game-component.html',
 			bindings: {
 				selectedData: '<',
-				finishedGame: '&'
+				finishedGame: '&',
+				guessedLetters: '&'
 			},
 			controller: function(){
 				var randomWordIndex = Math.floor(Math.random() * (this.selectedData.length));
@@ -33,27 +34,16 @@
 				function wrongLGuess(){
 					that.hangmanPhase ++;
 				}
-				this.stats = {
-					totalGames: 0,
-					gamesWon: 0,
-					gamesLost: 0,
-					guessedLetters: 0,
-					guessedWords: 0
-				};
 				this.currentWord = this.selectedData[randomWordIndex];
 				this.wordCheck = function(word){
 					if(word.toLowerCase() == this.currentWord.answer.toLowerCase()){
-						this.stats.gamesWon++;
-						this.stats.guessedWords++;
 						this.finishedGame({result: 'win'});
 						this.hangmanPhase = 'win';
 					}
 					else {
-						this.stats.gamesLost++;
 						this.finishedGame({result: 'defeat'});
 						this.hangmanPhase = 'defeat';
 					}
-					this.stats.totalGames++;
 				};
 				this.letterCheck = function(letter){
 					// If letter has already been guessed
@@ -79,7 +69,7 @@
 						console.log('Match Found!');
 						this.revealedLetters = this.revealedLetters.concat(matchingIndexes);
 						foundMatches.push(letter);
-						this.stats.guessedLetters += matchingIndexes.length;
+						this.guessedLetters({number: matchingIndexes.length});
 					}
 					else {
 						console.log('No match!');
@@ -196,11 +186,20 @@
 			$scope.numOfPlayers = 0;
 			$scope.missingNumbers = false;
 			$scope.startGameState = true;
+			$scope.stats = {
+				totalGames: 0,
+				gamesWon: 0,
+				gamesLost: 0,
+				guessedLetters: 0,
+				guessedWords: 0
+			};
 			conundrums.getData(function(data) {
 				completeData = data;
 				$scope.categories = Object.keys(data);
 			});
-
+			$scope.guessedLetters = function(number){
+				$scope.stats.guessedLetters += number;
+			};
 			$scope.setCategory = function(cat){
 				$scope.category = cat;
 			};
@@ -211,6 +210,14 @@
 				$scope.numOfPlayers = event.target.valueAsNumber;
 			};
 			$scope.finishedGame = function(result){
+				if('win' == result){
+					$scope.stats.gamesWon++;
+					$scope.stats.guessedWords++;
+				}
+				else {
+					$scope.stats.gamesLost++;
+				}
+				$scope.stats.totalGames++;
 				$scope.result = {
 					display: true,
 					outcome: result

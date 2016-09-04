@@ -14,8 +14,9 @@ html(lang="en")
 			img.logo(src="images/logo-hangman.png" alt="Hangman game logo")
 			h4(ng-show="!startGameState") {{'Singleplayer' | singleOrNot:!multiplayer}}
 			button.btn.btn-warning(ng-click="multiplayer = !multiplayer" ng-show="startGameState") {{'Multiplayer' | singleOrNot:multiplayer}}
+			stats(stats="stats")
 			new-game(ng-show="startGameState" set-num-of-words="setNumOfWords(event)" set-num-of-players="setNumOfPlayers(event)" multiplayer="multiplayer" categories="categories" missing-numbers="missingNumbers" set-category="setCategory(category)")
-			game-component(ng-if="!startGameState" selected-data="selectedData" finished-game="finishedGame(result)")
+			game-component(ng-if="!startGameState" guessed-letters="guessedLetters(number)" selected-data="selectedData" finished-game="finishedGame(result)")
 			p(ng-show="startGameState")
 				button.btn.btn-primary.btn-lg(ng-click="startGame()") Start game
 		script(type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js")

@@ -1,6 +1,11 @@
-div.stats
-	p Total games: {{$ctrl.stats.totalGames}}
-	p Games Won: {{$ctrl.stats.gamesWon}}
-	p Games Lost: {{$ctrl.stats.gamesLost}}
-	p Guessed letters: {{$ctrl.stats.guessedLetters}}
-	p Guessed words: {{$ctrl.stats.guessedWords}}
+ul.list-group.stats
+	li.list-group-item Total games:
+		span.badge {{$ctrl.stats.totalGames}}
+	li.list-group-item Games Won:
+		span.badge {{$ctrl.stats.gamesWon}}
+	li.list-group-item Games Lost:
+		span.badge {{$ctrl.stats.gamesLost}}
+	li.list-group-item Guessed letters:
+		span.badge {{$ctrl.stats.guessedLetters}}
+	li.list-group-item Guessed words:
+		span.badge {{$ctrl.stats.guessedWords}}
