@@ -56,19 +56,17 @@
 						wrongLGuess();
 						return;
 					}
-					// Check if letter is first or last from word (the visible ones)
-					if(letter == this.currentWord.answer[0] || letter == this.currentWord.answer[this.currentWord.answer.length-1]){
-						wrongLGuess();
-						return;
-					}
 					var matchingIndexes = [];
-					matchingIndexes.push(this.currentWord.answer.indexOf(letter));
+					var answerString = this.currentWord.answer;
+					// Remove last letter, because we don't need to test that
+					answerString = answerString.slice(0, -1);
+					matchingIndexes.push(answerString.indexOf(letter));
 					var i=0;
 					do {
-						matchingIndexes.push(this.currentWord.answer.indexOf(letter, matchingIndexes[i]+1));
+						matchingIndexes.push(answerString.indexOf(letter, matchingIndexes[i]+1));
 						i++;
 					}
-					while (matchingIndexes[i] !==-1);
+					while (matchingIndexes[i] !==-1 && matchingIndexes[i] !==0 && matchingIndexes[i] !==matchingIndexes.length-1);
 
 					// Remove last -1
 					matchingIndexes.pop();
@@ -115,6 +113,7 @@
 					if(this.letter.length == 1){
 						this.letterCheck({letter: this.letter});
 						this.guessCounter--;
+						this.letter = null;
 					}
 				};
 			}
