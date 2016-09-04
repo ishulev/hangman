@@ -111,9 +111,12 @@
 					onClick: '&'
 				},
 				require: '^^newGame',
-				template: '<button class="btn btn-primary">{{key}}</button>',
+				replace: true,
+				template: '<button class="btn">{{key}}</button>',
 				link: function(scope, element, attrs, parentCtrl){
 					element.on('click', function(){
+						element.parent().children().removeClass('btn-primary');
+						element.addClass('btn-primary');
 						parentCtrl.setCategory({category: scope.key});
 					});
 				}
