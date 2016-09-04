@@ -26,15 +26,24 @@
 				guessedLetters: '&'
 			},
 			controller: function(){
-				var randomWordIndex = Math.floor(Math.random() * (this.selectedData.length));
+				var randomWordIndex = 0;
 				var foundMatches = [];
 				var that = this;
+				function randomizeWord(){
+					randomWordIndex = Math.floor(Math.random() * (that.selectedData.length));
+					that.currentWord = that.selectedData[randomWordIndex];
+				}
+				randomizeWord();
+				this.$onChanges = function(changesObj){
+					if('undefined' !== typeof changesObj.selectedData.previousValue[0]){
+						randomizeWord();
+					}
+				};
 				this.revealedLetters = [];
 				this.hangmanPhase = 0;
 				function wrongLGuess(){
 					that.hangmanPhase ++;
 				}
-				this.currentWord = this.selectedData[randomWordIndex];
 				this.wordCheck = function(word){
 					if(word.toLowerCase() == this.currentWord.answer.toLowerCase()){
 						this.finishedGame({result: 'win'});
@@ -95,6 +104,11 @@
 			},
 			controller: function(){
 				this.scribble = this.answer.split('');
+				this.$onChanges = function(changesObj){
+					if('undefined' !== typeof changesObj.answer && 'undefined' !== typeof changesObj.answer.previousValue){
+						this.scribble = this.answer.split('');
+					}
+				};
 			}
 		})
 		.component('letterGuess', {
@@ -187,6 +201,7 @@
 			$scope.numOfPlayers = 0;
 			$scope.missingNumbers = false;
 			$scope.startGameState = true;
+			$scope.multiTotalStats = [];
 			var stats = {
 				totalGames: 0,
 				gamesWon: 0,
@@ -195,7 +210,7 @@
 				guessedWords: 0
 			};
 			$scope.playerStats = {
-				player: 'Player 1',
+				player: 'Single Player',
 				stats: stats
 			};
 			conundrums.getData(function(data) {
@@ -214,7 +229,15 @@
 			$scope.setNumOfPlayers = function(event){
 				$scope.numOfPlayers = event.target.valueAsNumber;
 			};
+			var that = $scope;
+			var multiPlayerTurn = 1;
+			var multiWordCount = 1;
+			function multiplayerStart(){
+				that.playerStats.player = 'Player ' + multiPlayerTurn;
+				that.category = that.categories[Math.floor(Math.random() * (that.categories.length))];
+			}
 			$scope.finishedGame = function(result){
+				var endgame = false;
 				if('win' == result){
 					stats.gamesWon++;
 					stats.guessedWords++;
@@ -227,9 +250,34 @@
 					display: true,
 					outcome: result
 				};
+				if($scope.multiplayer){
+					$scope.startGameState = true;
+					// Next player time OR endgame
+					if($scope.numOfWords == multiWordCount) {
+						multiWordCount = 1;
+						// ENDGAME
+						if($scope.numOfPlayers == multiPlayerTurn){
+							endgame = true;
+						}
+						// Next player
+						else {
+							$scope.multiTotalStats.push($scope.playerStats);
+							multiPlayerTurn++;
+						}
+					}
+					// Load next word for same player
+					else {
+						multiWordCount++;
+					}
+				}
 				$timeout(function(){
 					$scope.result.display = false;
-					$scope.startGameState = true;
+					if(!$scope.multiplayer || $scope.multiplayer && endgame){
+						$scope.startGameState = true;
+					}
+					else {
+						$scope.startGame();
+					}
 				}, 3000);
 			};
 			$scope.startGame = function(){
@@ -240,6 +288,7 @@
 					}
 					else {
 						this.missingNumbers = false;
+						multiplayerStart();
 					}
 				}
 				this.selectedData = completeData[this.category];
