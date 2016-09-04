@@ -25,8 +25,52 @@
 			},
 			controller: function(){
 				var randomWordIndex = Math.floor(Math.random() * (this.selectedData.length));
+				var foundMatches = [];
+				var that = this;
 				this.hangmanPhase = 0;
+				function wrongLGuess(){
+					that.hangmanPhase ++;
+				}
+				this.stats = {
+					totalGames: 0,
+					gamesWon: 0,
+					gamesLost: 0,
+					guessedLetters: 0,
+					guessedWords: 0
+				};
 				this.currentWord = this.selectedData[randomWordIndex];
+				this.letterCheck = function(letter){
+					// If letter has already been guessed
+					if(-1 !== foundMatches.indexOf(letter)){
+						wrongLGuess();
+						return;
+					}
+					// Check if letter is first or last from word (the visible ones)
+					if(letter == this.currentWord.answer[0] || letter == this.currentWord.answer[this.currentWord.answer.length-1]){
+						wrongLGuess();
+						return;
+					}
+					var matchingIndexes = [];
+					matchingIndexes.push(this.currentWord.answer.indexOf(letter));
+					var i=0;
+					do {
+						matchingIndexes.push(this.currentWord.answer.indexOf(letter, matchingIndexes[i]+1));
+						i++;
+					}
+					while (matchingIndexes[i] !==-1);
+
+					// Remove last -1
+					matchingIndexes.pop();
+					if(-1 !== matchingIndexes[0]) {
+						foundMatches.push(letter);
+						console.log('Match Found!');
+						this.stats.guessedLetters += matchingIndexes.length;
+					}
+					else {
+						wrongLGuess();
+						console.log('No match!');
+					}
+				};
 			}
 		})
 		.component('wordComponent', {
@@ -44,6 +88,29 @@
 			},
 			controller: function(){
 				this.scribble = this.answer.split('');
+			}
+		})
+		.component('letterGuess', {
+			templateUrl: 'ng-templates/template-letter-guess.html',
+			bindings: {
+				letterCheck: '&'
+			},
+			controller: function(){
+				this.guessCounter = 5;
+				this.preLetterCheck = function(){
+					if(this.letter.length == 1){
+						this.letterCheck({letter: this.letter});
+						this.guessCounter--;
+					}
+				};
+			}
+		})
+		.component('stats', {
+			templateUrl: 'ng-templates/template-stats.html',
+			bindings: {
+				stats: '<'
+			},
+			controller: function(){
 			}
 		});
 

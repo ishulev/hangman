@@ -1,0 +1,14 @@
+div.alert.alert-warning.alert-dismissible.fade.in(role="alert" ng-show="letterGuess.letter.$error.maxlength")
+	button(type="button" class="close" data-dismiss="alert" aria-label="Close")
+		span(aria-hidden="true") ×
+	strong Only 1 letter allowed!
+form(name="letterGuess")
+	fieldset(ng-disabled="$ctrl.guessCounter < 1")
+		div.row
+			div.col-md-6
+				div.input-group
+					input.form-control(type="text" placeholder="Guess a letter" name="letter" ng-maxlength="1" maxlength="2" ng-model="$ctrl.letter")
+					span.input-group-btn
+						button.btn.btn-default(ng-click="$ctrl.preLetterCheck()") Go!
+			div.col-md-6
+				span {{$ctrl.guessCounter}} guesses left
