@@ -45,11 +45,13 @@
 					if(word.toLowerCase() == this.currentWord.answer.toLowerCase()){
 						this.stats.gamesWon++;
 						this.stats.guessedWords++;
-						this.finishedGame({result: true});
+						this.finishedGame({result: 'win'});
+						this.hangmanPhase = 'win';
 					}
 					else {
 						this.stats.gamesLost++;
-						this.finishedGame({result: false});
+						this.finishedGame({result: 'defeat'});
+						this.hangmanPhase = 'defeat';
 					}
 					this.stats.totalGames++;
 				};
@@ -129,6 +131,7 @@
 			},
 			controller: function(){
 				this.guessCounter = 1;
+				this.word = '';
 				this.preWordCheck = function(){
 					if(this.word.length > 4){
 						this.wordCheck({word: this.word});
@@ -143,6 +146,25 @@
 				stats: '<'
 			},
 			controller: function(){
+			}
+		})
+		.component('overlay', {
+			templateUrl: 'ng-templates/template-overlay.html',
+			bindings: {
+				result: '<'
+			},
+			controller: function(){
+				this.result = {};
+				this.$onChanges = function(changesObj){
+					if('undefined' !== typeof changesObj.result.currentValue){
+						if('win' == this.result.outcome) {
+							this.message = 'You WON!';
+						}
+						else {
+							this.message = 'You lost :(';
+						}
+					}
+				};
 			}
 		});
 
@@ -166,7 +188,7 @@
 				return out;
 			};
 		})
-		hangmanApp.controller('HangmanParentController', function ($scope, conundrums){
+		hangmanApp.controller('HangmanParentController', function ($scope, $timeout, conundrums){
 			var completeData;
 			$scope.categories = [];
 			$scope.multiplayer = false;
@@ -189,7 +211,14 @@
 				$scope.numOfPlayers = event.target.valueAsNumber;
 			};
 			$scope.finishedGame = function(result){
-				console.log(result);
+				$scope.result = {
+					display: true,
+					outcome: result
+				};
+				$timeout(function(){
+					$scope.result.display = false;
+					$scope.startGameState = true;
+				}, 3000);
 			};
 			$scope.startGame = function(){
 				if(this.multiplayer){

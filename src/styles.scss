@@ -9,12 +9,14 @@
 .logo{
 	width: 100px;
 }
+.container {
+	max-width: 600px;
+}
 .hangman-phase {
 	height: 100px;
 }
 .popup-overlay {
 	position: fixed;
-	display: none;
 	top: 0;
 	left: 0;
 	height: 100%;
@@ -23,9 +25,8 @@
 	background-color: rgba(0,0,0,0.5);
 }
 .result-modal {
-	display: none;
 	width: 300px;
-	height: 200px;
+	height: 300px;
 	line-height: 200px;
 	position: fixed;
 	top: 50%; 
@@ -36,4 +37,7 @@
 	border-radius: 5px;
 	text-align: center;
 	z-index: 11; /* 1px higher than the overlay layer */
+	img {
+		width: 150px;
+	}
 }

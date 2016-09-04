@@ -5,10 +5,10 @@ div.alert.alert-warning.alert-dismissible.fade.in(role="alert" ng-show="wordGues
 form(name="wordGuess")
 	fieldset(ng-disabled="$ctrl.guessCounter < 1")
 		div.row
-			div.col-md-6
+			div.col-md-9
 				div.input-group
 					input.form-control(type="text" minlength="5" ng-minlength="5" placeholder="Guess word" name="word" ng-model="$ctrl.word")
 					span.input-group-btn
-						button.btn.btn-default(ng-click="$ctrl.preWordCheck()") Go!
-			div.col-md-6
+						button.btn.btn-default(ng-click="$ctrl.preWordCheck()" ng-disabled="$ctrl.word.length < 5") Go!
+			div.col-md-3
 				span {{$ctrl.guessCounter}} guesses left

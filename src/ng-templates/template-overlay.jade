@@ -1,0 +1,5 @@
+ng-show(ng-show="$ctrl.result.display")
+	div.popup-overlay
+	div.result-modal
+		h3 {{$ctrl.message}}
+		img(ng-src="images/besilka-{{$ctrl.result.outcome}}.png" alt="Hangman {{$ctrl.result.outcome}}")

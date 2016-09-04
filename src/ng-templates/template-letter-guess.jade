@@ -5,10 +5,10 @@ div.alert.alert-warning.alert-dismissible.fade.in(role="alert" ng-show="letterGu
 form(name="letterGuess")
 	fieldset(ng-disabled="$ctrl.guessCounter < 1")
 		div.row
-			div.col-md-6
+			div.col-md-9
 				div.input-group
 					input.form-control(type="text" placeholder="Guess a letter" name="letter" ng-maxlength="1" maxlength="1" ng-model="$ctrl.letter")
 					span.input-group-btn
-						button.btn.btn-default(ng-click="$ctrl.preLetterCheck()") Go!
-			div.col-md-6
+						button.btn.btn-default(ng-click="$ctrl.preLetterCheck()" ng-disabled="$ctrl.letter.length < 1") Go!
+			div.col-md-3
 				span {{$ctrl.guessCounter}} guesses left

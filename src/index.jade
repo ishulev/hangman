@@ -9,9 +9,7 @@ html(lang="en")
 		link(href="https://fonts.googleapis.com/css?family=PT+Sans:400,700|Merriweather:400,700" rel="stylesheet")
 		link(rel="stylesheet" type="text/css" href="css/styles.css")
 	body(ng-controller="HangmanParentController")
-		div.popup-overlay
-		div.result-modal
-			span I'm the modal window!
+		overlay(result="result")
 		main.container.text-center
 			img.logo(src="images/logo-hangman.png" alt="Hangman game logo")
 			h4(ng-show="!startGameState") {{'Singleplayer' | singleOrNot:!multiplayer}}
