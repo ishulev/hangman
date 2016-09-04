@@ -8,13 +8,16 @@ html(lang="en")
 		title Hangman
 		link(href="https://fonts.googleapis.com/css?family=PT+Sans:400,700|Merriweather:400,700" rel="stylesheet")
 		link(rel="stylesheet" type="text/css" href="css/styles.css")
-	body
-		main.container(ng-controller="HangmanParentController")
-			h1 Hangman
+	body(ng-controller="HangmanParentController")
+		div.popup-overlay
+		div.result-modal
+			span I'm the modal window!
+		main.container.text-center
+			img.logo(src="images/logo-hangman.png" alt="Hangman game logo")
 			h4(ng-show="!startGameState") {{'Singleplayer' | singleOrNot:!multiplayer}}
 			button.btn.btn-warning(ng-click="multiplayer = !multiplayer" ng-show="startGameState") {{'Multiplayer' | singleOrNot:multiplayer}}
 			new-game(ng-show="startGameState" set-num-of-words="setNumOfWords(event)" set-num-of-players="setNumOfPlayers(event)" multiplayer="multiplayer" categories="categories" missing-numbers="missingNumbers" set-category="setCategory(category)")
-			game-component(ng-if="!startGameState" selected-data="selectedData")
+			game-component(ng-if="!startGameState" selected-data="selectedData" finished-game="finishedGame(result)")
 			p(ng-show="startGameState")
 				button.btn.btn-primary.btn-lg(ng-click="startGame()") Start game
 		script(type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js")

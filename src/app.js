@@ -21,7 +21,8 @@
 		.component('gameComponent', {
 			templateUrl: 'ng-templates/template-game-component.html',
 			bindings: {
-				selectedData: '<'
+				selectedData: '<',
+				finishedGame: '&'
 			},
 			controller: function(){
 				var randomWordIndex = Math.floor(Math.random() * (this.selectedData.length));
@@ -44,9 +45,11 @@
 					if(word.toLowerCase() == this.currentWord.answer.toLowerCase()){
 						this.stats.gamesWon++;
 						this.stats.guessedWords++;
+						this.finishedGame({result: true});
 					}
 					else {
 						this.stats.gamesLost++;
+						this.finishedGame({result: false});
 					}
 					this.stats.totalGames++;
 				};
@@ -108,12 +111,13 @@
 				letterCheck: '&'
 			},
 			controller: function(){
+				this.letter = '';
 				this.guessCounter = 5;
 				this.preLetterCheck = function(){
 					if(this.letter.length == 1){
 						this.letterCheck({letter: this.letter});
 						this.guessCounter--;
-						this.letter = null;
+						this.letter = '';
 					}
 				};
 			}
@@ -183,6 +187,9 @@
 			};
 			$scope.setNumOfPlayers = function(event){
 				$scope.numOfPlayers = event.target.valueAsNumber;
+			};
+			$scope.finishedGame = function(result){
+				console.log(result);
 			};
 			$scope.startGame = function(){
 				if(this.multiplayer){

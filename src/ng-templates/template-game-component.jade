@@ -1,4 +1,4 @@
-h3 GameComponent -> hangmanPhase -> {{$ctrl.hangmanPhase}}
+img.hangman-phase(ng-src="images/besilka-{{$ctrl.hangmanPhase}}.png" alt="Hangman phase")
 stats(stats="$ctrl.stats")
 word-component(word-object="$ctrl.currentWord" revealed-letters="$ctrl.revealedLetters")
 letter-guess(letter-check="$ctrl.letterCheck(letter)")
