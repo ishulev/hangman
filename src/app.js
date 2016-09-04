@@ -41,7 +41,7 @@
 				};
 				this.currentWord = this.selectedData[randomWordIndex];
 				this.wordCheck = function(word){
-					if(word == this.currentWord.answer){
+					if(word.toLowerCase() == this.currentWord.answer.toLowerCase()){
 						this.stats.gamesWon++;
 						this.stats.guessedWords++;
 					}
