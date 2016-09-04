@@ -1,4 +1,5 @@
 h3 GameComponent -> hangmanPhase -> {{$ctrl.hangmanPhase}}
 stats(stats="$ctrl.stats")
-word-component(word-object="$ctrl.currentWord")
+word-component(word-object="$ctrl.currentWord" revealed-letters="$ctrl.revealedLetters")
 letter-guess(letter-check="$ctrl.letterCheck(letter)")
+word-guess(word-check="$ctrl.wordCheck(word)")

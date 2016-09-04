@@ -27,6 +27,7 @@
 				var randomWordIndex = Math.floor(Math.random() * (this.selectedData.length));
 				var foundMatches = [];
 				var that = this;
+				this.revealedLetters = [];
 				this.hangmanPhase = 0;
 				function wrongLGuess(){
 					that.hangmanPhase ++;
@@ -39,6 +40,16 @@
 					guessedWords: 0
 				};
 				this.currentWord = this.selectedData[randomWordIndex];
+				this.wordCheck = function(word){
+					if(word == this.currentWord.answer){
+						this.stats.gamesWon++;
+						this.stats.guessedWords++;
+					}
+					else {
+						this.stats.gamesLost++;
+					}
+					this.stats.totalGames++;
+				};
 				this.letterCheck = function(letter){
 					// If letter has already been guessed
 					if(-1 !== foundMatches.indexOf(letter)){
@@ -62,13 +73,14 @@
 					// Remove last -1
 					matchingIndexes.pop();
 					if(-1 !== matchingIndexes[0]) {
-						foundMatches.push(letter);
 						console.log('Match Found!');
+						this.revealedLetters = this.revealedLetters.concat(matchingIndexes);
+						foundMatches.push(letter);
 						this.stats.guessedLetters += matchingIndexes.length;
 					}
 					else {
-						wrongLGuess();
 						console.log('No match!');
+						wrongLGuess();
 					}
 				};
 			}
@@ -76,7 +88,8 @@
 		.component('wordComponent', {
 			templateUrl: 'ng-templates/template-word-component.html',
 			bindings: {
-				wordObject: '<'
+				wordObject: '<',
+				revealedLetters: '<'
 			},
 			controller: function(){
 			}
@@ -84,7 +97,8 @@
 		.component('scribbleComponent', {
 			templateUrl: 'ng-templates/template-scribble-component.html',
 			bindings: {
-				answer: '<'
+				answer: '<',
+				revealedLetters: '<'
 			},
 			controller: function(){
 				this.scribble = this.answer.split('');
@@ -100,6 +114,21 @@
 				this.preLetterCheck = function(){
 					if(this.letter.length == 1){
 						this.letterCheck({letter: this.letter});
+						this.guessCounter--;
+					}
+				};
+			}
+		})
+		.component('wordGuess', {
+			templateUrl: 'ng-templates/template-word-guess.html',
+			bindings: {
+				wordCheck: '&'
+			},
+			controller: function(){
+				this.guessCounter = 1;
+				this.preWordCheck = function(){
+					if(this.word.length > 4){
+						this.wordCheck({word: this.word});
 						this.guessCounter--;
 					}
 				};

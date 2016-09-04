@@ -1,1 +1,1 @@
-span(ng-repeat="letter in $ctrl.scribble track by $index" ng-class="{obscured:!$first && !$last}") {{letter}}
+span(ng-repeat="letter in $ctrl.scribble track by $index" ng-class="{obscured:!$first && !$last && -1 === $ctrl.revealedLetters.indexOf($index)}") {{letter}} {{matchingIndexes}}
