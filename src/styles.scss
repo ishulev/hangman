@@ -45,3 +45,97 @@
 	width: 200px;
 	text-align: left;
 }
+.new-game{
+	display: block;
+	min-height: 140px;
+}
+.start-game {
+	margin-top: 20px;
+}
+// .cube-wrap {
+// 	@keyframes spin-vertical {
+// 		from { transform: rotateX(0); }
+// 		to { transform: rotateX(-360deg); }
+// 	}
+// 	/* no more perspective */
+// 	perspective: none;
+// 	perspective-origin: 0 0;
+// 	.cube {
+// 		margin: 0 auto; /* keeps the cube centered */
+
+// 		transform-origin: 0 10px;
+// 		animation: spin-vertical 5s infinite linear;
+// 		position: relative;
+// 		width: 20px;
+// 		transform-style: preserve-3d;
+// 		div {
+// 			position: absolute;
+// 			width: 20px;
+// 			height: 20px;
+// 		}
+// 		.back {
+// 			transform: translateZ(-10px) rotateX(180deg);
+// 		}
+// 		.right {
+// 			transform: rotateY(-270deg) translateX(10px);
+// 			transform-origin: top right;
+// 		}
+// 		.left {
+// 			transform: rotateY(270deg) translateX(-10px);
+// 			transform-origin: center left;
+// 		}
+// 		.top {
+// 			transform-origin: top center;
+// 			transform: rotateX(-270deg) translateY(-10px);
+// 		}
+// 		.bottom {
+// 			transform: rotateX(-90deg) translateY(10px);
+// 			transform-origin: bottom center;
+// 		}
+// 		.front {
+// 			transform: translateZ(10px);
+// 		}
+// 	}
+// }
+.cube {
+	width: 20px;
+	text-align: center;
+	margin: 0 auto;
+	height: 20px;
+	display: inline-block;
+
+	-webkit-transition: -webkit-transform .33s;
+	transition: transform .33s; /* Animate the transform properties */
+
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d; /* <-NB */
+}
+
+/* The two faces of the cube */
+.flippety,.flop {
+	background: rgb(247, 247, 247);
+	border: 1px solid rgba(147, 184, 189, .8);
+
+	border-radius: 2px;
+
+	-webkit-box-shadow: 0 5px 20px rgba(105, 108, 109, .3), 0 0 8px 5px rgba(208, 223, 226, .4) inset;
+	box-shadow: 0 5px 20px rgba(105, 108, 109, .3), 0 0 8px 5px rgba(208, 223, 226, .4) inset;
+	height: 20px;
+}
+
+/* Position the faces */
+.flippety {
+	-webkit-transform: translateZ(10px);
+	transform: translateZ(10px);
+}
+
+.flop {
+	-webkit-transform: rotateX(-90deg) translateZ(-10px);
+	transform: rotateX(-90deg) translateZ(-10px);
+}
+
+/* Rotate the cube */
+.cube.revealed {
+	-webkit-transform: rotateX(90deg);
+	transform: rotateX(90deg);
+}

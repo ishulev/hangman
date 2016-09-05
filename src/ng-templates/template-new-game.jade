@@ -6,9 +6,11 @@ ng-show(ng-show="$ctrl.multiplayer")
 		button(type="button" class="close" data-dismiss="alert" aria-label="Close")
 			span(aria-hidden="true") ×
 		strong Please enter the required numbers below!
-	p
-		| Number of players
-		input.form-control(type="number" ng-blur="$ctrl.setNumOfWords({event: $event})")
-	p
-		| Number of words per player
-		input.form-control(type="number" ng-blur="$ctrl.setNumOfPlayers({event: $event})")
+	h3 How many players and words?
+	div.row
+		div.col-md-6
+			label.sr-only(for="numOfPlayers") Number of players
+			input.form-control(type="number" placeholder="Number of players" name="numOfPlayers" ng-blur="$ctrl.setNumOfWords({event: $event})")
+		div.col-md-6
+			label.sr-only(for="numOfWords") Number of words per player
+			input.form-control(type="number" placeholder="Number of words per player" name="numOfWords" ng-blur="$ctrl.setNumOfPlayers({event: $event})")

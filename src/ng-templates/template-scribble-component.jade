@@ -1,1 +1,5 @@
-span(ng-repeat="letter in $ctrl.scribble track by $index" ng-class="{obscured:!$first && !$last && -1 === $ctrl.revealedLetters.indexOf($index)}") {{letter}} {{matchingIndexes}}
+div.cube(ng-repeat="letter in $ctrl.scribble track by $index" ng-class="{revealed:$first || $last || -1 !== $ctrl.revealedLetters.indexOf($index)}")
+	div.flippety
+		span _
+	div.flop
+		span {{letter}}

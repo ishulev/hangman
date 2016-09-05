@@ -74,8 +74,8 @@
 
 					// Remove last -1
 					matchingIndexes.pop();
-					if(-1 !== matchingIndexes[0]) {
-						console.log('Match Found!');
+					// Check for 0 (first letter) and -1(no match)
+					if(0 < matchingIndexes[0]) {
 						this.revealedLetters = this.revealedLetters.concat(matchingIndexes);
 						foundMatches.push(letter);
 						this.guessedLetters({number: matchingIndexes.length});
@@ -163,10 +163,10 @@
 				this.$onChanges = function(changesObj){
 					if('undefined' !== typeof changesObj.result.currentValue){
 						if('win' == this.result.outcome) {
-							this.message = 'You WON!';
+							this.message = 'Correct!';
 						}
 						else {
-							this.message = 'You lost :(';
+							this.message = 'Wrong :(';
 						}
 					}
 				};
@@ -218,7 +218,7 @@
 				$scope.categories = Object.keys(data);
 			});
 			$scope.guessedLetters = function(number){
-				stats.guessedLetters += number;
+				$scope.playerStats.stats.guessedLetters += number;
 			};
 			$scope.setCategory = function(cat){
 				$scope.category = cat;
@@ -236,16 +236,25 @@
 				that.playerStats.player = 'Player ' + multiPlayerTurn;
 				that.category = that.categories[Math.floor(Math.random() * (that.categories.length))];
 			}
+			function resetStats(){
+				that.playerStats.stats = {
+					totalGames: 0,
+					gamesWon: 0,
+					gamesLost: 0,
+					guessedLetters: 0,
+					guessedWords: 0
+				};
+			}
 			$scope.finishedGame = function(result){
 				var endgame = false;
 				if('win' == result){
-					stats.gamesWon++;
-					stats.guessedWords++;
+					$scope.playerStats.stats.gamesWon++;
+					$scope.playerStats.stats.guessedWords++;
 				}
 				else {
-					stats.gamesLost++;
+					$scope.playerStats.stats.gamesLost++;
 				}
-				stats.totalGames++;
+				$scope.playerStats.stats.totalGames++;
 				$scope.result = {
 					display: true,
 					outcome: result
@@ -254,6 +263,8 @@
 					$scope.startGameState = true;
 					// Next player time OR endgame
 					if($scope.numOfWords == multiWordCount) {
+						// var currentPlayer = $scope.playerStats;
+						$scope.multiTotalStats.push(JSON.parse(JSON.stringify($scope.playerStats)));
 						multiWordCount = 1;
 						// ENDGAME
 						if($scope.numOfPlayers == multiPlayerTurn){
@@ -261,8 +272,8 @@
 						}
 						// Next player
 						else {
-							$scope.multiTotalStats.push($scope.playerStats);
 							multiPlayerTurn++;
+							resetStats();
 						}
 					}
 					// Load next word for same player
@@ -287,9 +298,16 @@
 						return;
 					}
 					else {
+						if($scope.playerStats.player == 'Single Player'){
+							
+						}
 						this.missingNumbers = false;
 						multiplayerStart();
 					}
+				}
+				else {
+					$scope.playerStats.player = 'Single Player';
+					resetStats();
 				}
 				this.selectedData = completeData[this.category];
 				this.startGameState = false;
