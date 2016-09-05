@@ -170,6 +170,15 @@
 					}
 				};
 			}
+		})
+		.component('multiplayerResults', {
+			templateUrl: 'ng-templates/template-mplayer-results.html',
+			bindings: {
+				stats: '<'
+			},
+			controller: function(){
+				
+			}
 		});
 
 		hangmanApp.factory('conundrums', function($http){
@@ -200,6 +209,7 @@
 			$scope.numOfPlayers = 0;
 			$scope.missingNumbers = false;
 			$scope.startGameState = true;
+			$scope.endgame = false;
 			$scope.multiTotalStats = [];
 			var stats = {
 				totalGames: 0,
@@ -245,7 +255,6 @@
 				};
 			}
 			$scope.finishedGame = function(result){
-				var endgame = false;
 				if('win' == result.outcome){
 					if(true == result.wordGuess){
 						$scope.playerStats.stats.guessedWords++;
@@ -269,7 +278,7 @@
 						multiWordCount = 1;
 						// ENDGAME
 						if($scope.numOfPlayers == multiPlayerTurn){
-							endgame = true;
+							$scope.endgame = true;
 						}
 						// Next player
 						else {
@@ -284,7 +293,7 @@
 				}
 				$timeout(function(){
 					$scope.result.display = false;
-					if(!$scope.multiplayer || $scope.multiplayer && endgame){
+					if(!$scope.multiplayer || $scope.multiplayer && $scope.endgame){
 						$scope.startGameState = true;
 					}
 					else {
@@ -313,6 +322,7 @@
 					resetStats();
 				}
 				this.selectedData = completeData[this.category];
+				this.endgame = false;
 				this.startGameState = false;
 			}
 		});

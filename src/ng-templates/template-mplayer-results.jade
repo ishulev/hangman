@@ -1,0 +1,18 @@
+table.table
+	caption Multplayer results
+	thead
+		tr
+			th Player
+			th Total games
+			th Won
+			th Lost
+			th Letters guessed
+			th Words guessed
+	tbody
+		tr(ng-repeat="player in $ctrl.stats")
+			th {{player.player}}
+			th {{player.stats.totalGames}}
+			th {{player.stats.gamesWon}}
+			th {{player.stats.gamesLost}}
+			th {{player.stats.guessedLetters}}
+			th {{player.stats.guessedWords}}
