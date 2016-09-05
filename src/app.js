@@ -46,11 +46,11 @@
 				}
 				this.wordCheck = function(word){
 					if(word.toLowerCase() == this.currentWord.answer.toLowerCase()){
-						this.finishedGame({result: 'win'});
+						this.finishedGame({result: {outcome: 'win', wordGuess: true}});
 						this.hangmanPhase = 'win';
 					}
 					else {
-						this.finishedGame({result: 'defeat'});
+						this.finishedGame({result: {outcome: 'defeat'}});
 						this.hangmanPhase = 'defeat';
 					}
 				};
@@ -64,24 +64,30 @@
 					var answerString = this.currentWord.answer;
 					// Remove last letter, because we don't need to test that
 					answerString = answerString.slice(0, -1);
-					matchingIndexes.push(answerString.indexOf(letter));
-					var i=0;
-					do {
-						matchingIndexes.push(answerString.indexOf(letter, matchingIndexes[i]+1));
-						i++;
+					// Remove first letter
+					answerString = answerString.slice(1);
+					if(-1 !== answerString.indexOf(letter)) {
+						matchingIndexes.push(answerString.indexOf(letter) + 1);
+						var i=0;
+						do {
+							var index = answerString.indexOf(letter, matchingIndexes[i]);
+							matchingIndexes.push(index+1);
+							i++;
+						}
+						while (matchingIndexes[i] !==-1 && matchingIndexes[i] !==0);
+						// Remove last -1 || 0
+						matchingIndexes.pop();
 					}
-					while (matchingIndexes[i] !==-1 && matchingIndexes[i] !==0 && matchingIndexes[i] !==matchingIndexes.length-1);
 
-					// Remove last -1
-					matchingIndexes.pop();
-					// Check for 0 (first letter) and -1(no match)
-					if(0 < matchingIndexes[0]) {
+					if(-1 !== matchingIndexes[0] && matchingIndexes.length > 0) {
 						this.revealedLetters = this.revealedLetters.concat(matchingIndexes);
 						foundMatches.push(letter);
 						this.guessedLetters({number: matchingIndexes.length});
+						if(this.revealedLetters.length == answerString.length){
+							this.finishedGame({result: {outcome: 'win', wordGuess: false}});
+						}
 					}
 					else {
-						console.log('No match!');
 						wrongLGuess();
 					}
 				};
@@ -104,11 +110,6 @@
 			},
 			controller: function(){
 				this.scribble = this.answer.split('');
-				this.$onChanges = function(changesObj){
-					if('undefined' !== typeof changesObj.answer && 'undefined' !== typeof changesObj.answer.previousValue){
-						this.scribble = this.answer.split('');
-					}
-				};
 			}
 		})
 		.component('letterGuess', {
@@ -149,8 +150,6 @@
 			bindings: {
 				playerStats: '<',
 				mode: '<'
-			},
-			controller: function(){
 			}
 		})
 		.component('overlay', {
@@ -247,9 +246,11 @@
 			}
 			$scope.finishedGame = function(result){
 				var endgame = false;
-				if('win' == result){
+				if('win' == result.outcome){
+					if(true == result.wordGuess){
+						$scope.playerStats.stats.guessedWords++;
+					}
 					$scope.playerStats.stats.gamesWon++;
-					$scope.playerStats.stats.guessedWords++;
 				}
 				else {
 					$scope.playerStats.stats.gamesLost++;
@@ -257,7 +258,7 @@
 				$scope.playerStats.stats.totalGames++;
 				$scope.result = {
 					display: true,
-					outcome: result
+					outcome: result.outcome
 				};
 				if($scope.multiplayer){
 					$scope.startGameState = true;

@@ -9,8 +9,8 @@ ng-show(ng-show="$ctrl.multiplayer")
 	h3 How many players and words?
 	div.row
 		div.col-md-6
-			label.sr-only(for="numOfPlayers") Number of players
-			input.form-control(type="number" placeholder="Number of players" name="numOfPlayers" ng-blur="$ctrl.setNumOfWords({event: $event})")
+			label(for="numOfPlayers") Number of players:
+			input.form-control(type="number" name="numOfPlayers" ng-blur="$ctrl.setNumOfPlayers({event: $event})")
 		div.col-md-6
-			label.sr-only(for="numOfWords") Number of words per player
-			input.form-control(type="number" placeholder="Number of words per player" name="numOfWords" ng-blur="$ctrl.setNumOfPlayers({event: $event})")
+			label(for="numOfWords") Number of words per player:
+			input.form-control(type="number" name="numOfWords" ng-blur="$ctrl.setNumOfWords({event: $event})")
