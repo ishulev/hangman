@@ -299,13 +299,15 @@
 					}
 					else {
 						if($scope.playerStats.player == 'Single Player'){
-							
+							multiPlayerTurn = 1;
+							multiWordCount = 1;
+							resetStats();
 						}
 						this.missingNumbers = false;
 						multiplayerStart();
 					}
 				}
-				else {
+				else if($scope.playerStats.player !== 'Single Player'){
 					$scope.playerStats.player = 'Single Player';
 					resetStats();
 				}
