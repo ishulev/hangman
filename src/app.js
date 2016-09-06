@@ -12,10 +12,58 @@
 			bindings: {
 				categories: '<',
 				multiplayer: '<',
-				missingNumbers: '<',
-				setNumOfWords: '&',
-				setNumOfPlayers: '&',
+				startGame: '&',
+				setPlayersInfo: '&',
 				setCategory: '&'
+			},
+			controller: function(){
+				this.playerNames = [];
+				this.notPopulated = true;
+				this.setPlayerCount = function(count){
+					var playerCount = [];
+					for (var i = 0; i < count; i++) { 
+						playerCount.push(i) 
+					} 
+
+					return playerCount;
+				};
+				this.checkOverallValidation = function(){
+					if(this.missingNumbers == false && this.missingNames == false){
+						this.notPopulated = false;
+					}
+				};
+				this.checkNumValues = function(){
+					if(1 > this.numOfWords || 'undefined' == typeof this.numOfWords || 2 > this.numOfPlayers || 'undefined' == typeof this.numOfPlayers) {
+						this.missingNumbers = true;
+					}
+					else {
+						this.missingNumbers = false;
+						if(!this.missingNames && 'undefined' !== typeof this.missingNames){
+							this.notPopulated = false;
+							this.setPlayersInfo({playersInfo: {playerNames: this.playerNames, numOfWords: this.numOfWords}});
+						}
+					}
+				};
+				this.preSetPlayerNames = function(object){
+					if(object.value.length < 1){
+						this.missingNames = true;
+						return;
+					}
+					else {
+						this.playerNames[object.num - 1] = object.value;
+					}
+					for(var i = 0; i < this.numOfPlayers; i++) {
+						if('undefined' == typeof this.playerNames[i] || this.playerNames[i].length < 1) {
+							this.missingNames = true;
+							return;
+						}
+					}
+					this.missingNames = false;
+					if(!this.missingNumbers){
+						this.notPopulated = false;
+						this.setPlayersInfo({playersInfo: {playerNames: this.playerNames, numOfWords: this.numOfWords}});
+					}
+				};
 			}
 		})
 		.component('gameComponent', {
@@ -177,7 +225,7 @@
 				stats: '<'
 			},
 			controller: function(){
-				
+				this.localStats = this.stats.slice();
 			}
 		});
 
@@ -211,6 +259,7 @@
 			$scope.startGameState = true;
 			$scope.endgame = false;
 			$scope.multiTotalStats = [];
+			$scope.playerNames = [];
 			var stats = {
 				totalGames: 0,
 				gamesWon: 0,
@@ -226,23 +275,23 @@
 				completeData = data;
 				$scope.categories = Object.keys(data);
 			});
+			$scope.setPlayersInfo = function(playersInfo){
+				console.log(playersInfo);
+				$scope.playerNames = playersInfo.playerNames;
+				$scope.numOfWords = playersInfo.numOfWords;
+				$scope.numOfPlayers = playersInfo.playerNames.length;
+			};
 			$scope.guessedLetters = function(number){
 				$scope.playerStats.stats.guessedLetters += number;
 			};
 			$scope.setCategory = function(cat){
 				$scope.category = cat;
 			};
-			$scope.setNumOfWords = function(event){
-				$scope.numOfWords = event.target.valueAsNumber;
-			};
-			$scope.setNumOfPlayers = function(event){
-				$scope.numOfPlayers = event.target.valueAsNumber;
-			};
 			var that = $scope;
 			var multiPlayerTurn = 1;
 			var multiWordCount = 1;
 			function multiplayerStart(){
-				that.playerStats.player = 'Player ' + multiPlayerTurn;
+				that.playerStats.player = $scope.playerNames[multiPlayerTurn-1];
 				that.category = that.categories[Math.floor(Math.random() * (that.categories.length))];
 			}
 			function resetStats(){
@@ -294,7 +343,11 @@
 				$timeout(function(){
 					$scope.result.display = false;
 					if(!$scope.multiplayer || $scope.multiplayer && $scope.endgame){
+						resetStats();
+						$scope.multiTotalStats = [];
 						$scope.startGameState = true;
+						multiPlayerTurn = 1;
+						multiWordCount = 1;
 					}
 					else {
 						$scope.startGame();
@@ -303,19 +356,13 @@
 			};
 			$scope.startGame = function(){
 				if(this.multiplayer){
-					if(this.numOfWords === 0 || this.numOfPlayers === 0){
-						this.missingNumbers = true;
-						return;
+					if($scope.playerStats.player == 'Single Player'){
+						multiPlayerTurn = 1;
+						multiWordCount = 1;
+						resetStats();
 					}
-					else {
-						if($scope.playerStats.player == 'Single Player'){
-							multiPlayerTurn = 1;
-							multiWordCount = 1;
-							resetStats();
-						}
-						this.missingNumbers = false;
-						multiplayerStart();
-					}
+					this.missingNumbers = false;
+					multiplayerStart();
 				}
 				else if($scope.playerStats.player !== 'Single Player'){
 					$scope.playerStats.player = 'Single Player';

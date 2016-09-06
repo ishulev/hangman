@@ -9,7 +9,7 @@ table.table
 			th Letters guessed
 			th Words guessed
 	tbody
-		tr(ng-repeat="player in $ctrl.stats")
+		tr(ng-repeat="player in $ctrl.localStats")
 			th {{player.player}}
 			th {{player.stats.totalGames}}
 			th {{player.stats.gamesWon}}
