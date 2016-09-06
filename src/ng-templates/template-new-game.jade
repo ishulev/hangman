@@ -14,15 +14,15 @@ ng-show(ng-show="$ctrl.multiplayer")
 		div.col-md-6
 			label(for="numOfWords") Number of words per player:
 			input.form-control(type="number" ng-change="$ctrl.checkNumValues()" name="numOfWords" ng-model="$ctrl.numOfWords")
-ng-show(ng-show="0 < $ctrl.numOfPlayers")
-	div.alert.alert-warning.alert-dismissible.fade.in(role="alert" ng-show="$ctrl.missingNames")
-		button(type="button" class="close" data-dismiss="alert" aria-label="Close")
-			span(aria-hidden="true") ×
-		strong Please enter names for all players!
-	h4 Enter player names
-	div.row(ng-repeat="n in $ctrl.setPlayerCount($ctrl.numOfPlayers)")
-		div.col-md-6.col-md-offset-3
-			label(for="numOfWords") Player {{n+1}} name:
-			input.form-control(type="text" submit-required="true" ng-model="$ctrl.playerName[n]" name="player{{n+1}}Name" ng-change="$ctrl.preSetPlayerNames({num: n+1, value: $ctrl.playerName[n]})")
+	ng-show(ng-show="0 < $ctrl.numOfPlayers")
+		div.alert.alert-warning.alert-dismissible.fade.in(role="alert" ng-show="$ctrl.missingNames")
+			button(type="button" class="close" data-dismiss="alert" aria-label="Close")
+				span(aria-hidden="true") ×
+			strong Please enter names for all players!
+		h4 Enter player names
+		div.row(ng-repeat="n in $ctrl.setPlayerCount($ctrl.numOfPlayers)")
+			div.col-md-6.col-md-offset-3
+				label(for="numOfWords") Player {{n+1}} name:
+				input.form-control(type="text" submit-required="true" ng-model="$ctrl.playerName[n]" name="player{{n+1}}Name" ng-change="$ctrl.preSetPlayerNames({num: n+1, value: $ctrl.playerName[n]})")
 p.text-center.start-game
 	button.btn.btn-primary.btn-lg(ng-click="$ctrl.startGame()" ng-disabled="!$ctrl.multiplayer && !$ctrl.catIsSet || $ctrl.multiplayer && $ctrl.numOfWords < 1 || $ctrl.multiplayer && $ctrl.numOfPlayers < 1 || $ctrl.notPopulated || $ctrl.missingNumbers || $ctrl.missingNames") Start game
