@@ -25,4 +25,4 @@ ng-show(ng-show="$ctrl.multiplayer")
 				label(for="numOfWords") Player {{n+1}} name:
 				input.form-control(type="text" submit-required="true" ng-model="$ctrl.playerName[n]" name="player{{n+1}}Name" ng-change="$ctrl.preSetPlayerNames({num: n+1, value: $ctrl.playerName[n]})")
 p.text-center.start-game
-	button.btn.btn-primary.btn-lg(ng-click="$ctrl.startGame()" ng-disabled="!$ctrl.multiplayer && !$ctrl.catIsSet || $ctrl.multiplayer && $ctrl.numOfWords < 1 || $ctrl.multiplayer && $ctrl.numOfPlayers < 1 || $ctrl.notPopulated || $ctrl.missingNumbers || $ctrl.missingNames") Start game
+	button.btn.btn-primary.btn-lg(ng-click="$ctrl.startGame()" ng-disabled="!$ctrl.multiplayer && !$ctrl.catIsSet || $ctrl.multiplayer && $ctrl.numOfWords < 1 || $ctrl.multiplayer && $ctrl.numOfPlayers < 1 || $ctrl.multiplayer && $ctrl.notPopulated || $ctrl.multiplayer && $ctrl.missingNumbers || $ctrl.multiplayer && $ctrl.missingNames") Start game

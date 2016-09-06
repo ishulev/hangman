@@ -375,12 +375,15 @@
 				}
 				$timeout(function(){
 					$scope.result.display = false;
-					if(!$scope.multiplayer || $scope.multiplayer && $scope.endgame){
+					if($scope.multiplayer && $scope.endgame){
 						resetStats();
 						$scope.multiTotalStats = [];
 						$scope.startGameState = true;
 						multiPlayerTurn = 1;
 						multiWordCount = 1;
+					}
+					else if(!$scope.multiplayer) {
+						$scope.startGameState = true;
 					}
 					else {
 						$scope.startGame();
