@@ -1,12 +1,9 @@
 (function(){
 	'use strict';
 	window.onload = function() {
-		var hangmanApp = angular.module('hangmanApp', ['ngComponentRouter']);
+		var hangmanApp = angular.module('hangmanApp', []);
 
-		hangmanApp.config(function($locationProvider) {
-			$locationProvider.html5Mode(true);
-		})
-		.value('$routerRootComponent', 'newGame')
+		hangmanApp
 		.component('newGame', {
 			templateUrl: 'ng-templates/template-new-game.html',
 			bindings: {

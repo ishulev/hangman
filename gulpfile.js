@@ -31,16 +31,8 @@ gulp.task('serve', function() {
 var concat = require('gulp-concat');
 var minify = require('gulp-minify');
 gulp.task('scripts', function() {
-	return gulp.src(['./node_modules/@angular/router/angular1/angular_1_router.js', src + '/*.js'])
+	return gulp.src([src + '/*.js'])
 	.pipe(concat('scripts.js'))
-	// .pipe(minify({
-	// 	ext:{
-	// 		src:'-debug.js',
-	// 		min:'.js'
-	// 	},
-	// 	exclude: ['tasks'],
-	// 	ignoreFiles: ['.combo.js', '-min.js']
-	// }))
 	.pipe(gulp.dest(dest + '/js'));
 });
 
