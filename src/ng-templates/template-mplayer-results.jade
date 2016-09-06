@@ -1,5 +1,5 @@
-table.table
-	caption Multplayer results
+h3.text-center Multplayer results
+table.table.table-bordered
 	thead
 		tr
 			th Player
@@ -10,9 +10,11 @@ table.table
 			th Words guessed
 	tbody
 		tr(ng-repeat="player in $ctrl.localStats")
-			th {{player.player}}
+			th(ng-class="{success: player.player==$ctrl.winner.name}")
+				| {{player.player}} 
+				span(ng-show="player.player==$ctrl.winner.name").glyphicon.glyphicon-star
 			th {{player.stats.totalGames}}
-			th {{player.stats.gamesWon}}
+			th(ng-class="{success: player.player==$ctrl.winner.name && $ctrl.winner.by == 'gamesWon'}") {{player.stats.gamesWon}}
 			th {{player.stats.gamesLost}}
-			th {{player.stats.guessedLetters}}
-			th {{player.stats.guessedWords}}
+			th(ng-class="{success: player.player==$ctrl.winner.name && $ctrl.winner.by == 'guessedLetters'}") {{player.stats.guessedLetters}}
+			th(ng-class="{success: player.player==$ctrl.winner.name && $ctrl.winner.by == 'guessedWords'}") {{player.stats.guessedWords}}

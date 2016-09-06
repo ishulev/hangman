@@ -225,7 +225,40 @@
 				stats: '<'
 			},
 			controller: function(){
+				// Make a copy, before parent resets this.stats
 				this.localStats = this.stats.slice();
+				this.winner = {name: '', by: ''};
+				var that = this;
+				function loopForWinner(looper, criteria){
+					var length = looper.length;
+					var counter = 0;
+					var result;
+					for(var i=0; i < length; i++){
+						if(counter < looper[i].stats[criteria]){
+							counter = looper[i].stats[criteria];
+							result = {name: looper[i].player, by: criteria};
+						}
+						else if(counter == looper[i].stats[criteria]){
+							result = false;
+						}
+					}
+					return result;
+				}
+				function findWinner(){
+					if(!loopForWinner(that.localStats, 'gamesWon')){
+						if(!loopForWinner(that.localStats, 'guessedWords')){
+							that.winner = loopForWinner(that.localStats, 'guessedLetters');
+						}
+						else {
+							that.winner = loopForWinner(that.localStats, 'guessedWords');
+						}
+					}
+					else {
+						that.winner = loopForWinner(that.localStats, 'gamesWon');
+					}
+				}
+				findWinner();
+				console.log('after loop');
 			}
 		});
 
